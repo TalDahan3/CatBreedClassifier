@@ -120,6 +120,7 @@ def getImages(trainlist,sn,glbCnt):
     sclasses = np_utils.to_categorical(classes,6)
     return np.vstack(imgs),sclasses,glbCnt
 
+"""
 def definemodel():
     model = Sequential()
     model.add(BatchNormalization(input_shape=(224, 224, 3)))
@@ -150,7 +151,38 @@ def definemodel():
     model.summary()
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
-    
+ """   
+
+def definemodel():
+    model = Sequential()
+    model.add(Conv2D(filters=16, kernel_size=3, kernel_initializer='he_normal', activation='relu', input_shape=(224, 224, 3)))
+    model.add(MaxPooling2D(pool_size=2))
+    model.add(BatchNormalization())
+
+    model.add(Conv2D(filters=32, kernel_size=3, kernel_initializer='he_normal', activation='relu'))
+    model.add(MaxPooling2D(pool_size=2))
+    model.add(BatchNormalization())
+
+    model.add(Conv2D(filters=64, kernel_size=3, kernel_initializer='he_normal', activation='relu'))
+    model.add(MaxPooling2D(pool_size=2))
+    model.add(BatchNormalization())
+
+    model.add(Conv2D(filters=128, kernel_size=3, kernel_initializer='he_normal', activation='relu'))
+    model.add(MaxPooling2D(pool_size=2))
+    model.add(BatchNormalization())
+
+    model.add(Conv2D(filters=256, kernel_size=3, kernel_initializer='he_normal', activation='relu'))
+    model.add(MaxPooling2D(pool_size=2))
+    model.add(BatchNormalization())
+
+    model.add(GlobalAveragePooling2D())
+
+    model.add(Dense(6, activation='softmax'))
+
+    model.summary()
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    return model
+
 def predict (model,image,cat):
     #start = datetime.datetime.now()
     predictions = model.predict(image)    
@@ -217,13 +249,14 @@ def acc (pathToWeights):
 
 if __name__ == '__main__':
     raw = input('Welcome to Tal network\r\n'+
-    'For Training press t\r\na'+
+    'For Training press t\r\n'+
     'For Accuracy test press a\r\n'+
     'Any other key to quit\r\n')
     char = raw.split()
     char[0] = char[0].upper()
     if char[0] == 'T':
-        training('saved_models/weights_model1.hdf5',50,20)
+        #training('saved_models/weights_model1.hdf5',50,20)
+        training(None,100,20)
     elif char[0] == 'A':
         acc('saved_models/weights_model1.hdf5')
 
