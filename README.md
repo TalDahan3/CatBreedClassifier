@@ -19,7 +19,7 @@ The accuaracy procedure is as follows:
 # Usage
 Training - 
 In order to train the CNN from scratch run the program and press t. 
-In case you want to train from previous weights go to __main and call the training function
+In case you want to train from previous weights go to main and call the training function
 with the first variables as the path to the weights instead of None.
 To determine the number of epochs and batch size call the training program with suited veriables.
 
